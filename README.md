@@ -1,65 +1,169 @@
-# DeepSeek-R1-AI-Voice-Agent 
+# DeepSeek R1 AI Voice Agent
 
-This project enables real-time speech-to-text transcription using **AssemblyAI**, generates AI responses with **DeepSeek R1 (7B model) via Ollama**, and converts text responses into speech using **ElevenLabs**. The entire process happens in real-time, allowing for seamless interaction.  
+A real-time AI voice assistant powered by DeepSeek R1 that enables seamless voice conversations through speech-to-text transcription, AI response generation, and text-to-speech synthesis.
 
----
+## 🌟 Overview
 
-## 🚀 Features  
-- **Real-time speech-to-text** using AssemblyAI  
-- **AI-powered responses** with DeepSeek R1 (7B model) via Ollama  
-- **Instant text-to-speech** conversion with ElevenLabs  
-- **Live audio streaming** for an interactive experience  
+This project creates an interactive AI voice agent that:
+- Captures and transcribes speech in real-time using AssemblyAI
+- Generates intelligent responses using DeepSeek R1 (7B model) via Ollama
+- Converts AI responses back to natural speech using ElevenLabs
+- Streams audio responses for immediate playback
 
----
+## ✨ Features
 
-## 🛠️ Setup Instructions  
+- **Real-time Speech Recognition**: High-quality speech-to-text transcription with AssemblyAI
+- **Advanced AI Responses**: Powered by DeepSeek R1's reasoning capabilities
+- **Natural Voice Synthesis**: Professional text-to-speech with ElevenLabs
+- **Streaming Audio Playback**: Low-latency audio streaming for responsive conversations
+- **Conversation Memory**: Maintains context throughout the conversation
+- **Cross-platform Support**: Works on macOS, Linux, and Windows
 
-### Step 1: Sign Up & Install Dependencies  
+## 🔧 Prerequisites
 
-#### ✅ Get API Keys  
-- **AssemblyAI (for speech-to-text):** [Sign up for a free API key](https://www.assemblyai.com/?utm_source=youtube&utm_medium=referral&utm_campaign=yt_smit_28)  
-- **ElevenLabs (for text-to-speech):** [Sign up for an account](https://elevenlabs.io/)  
+### API Keys Required
+- **AssemblyAI API Key**: [Get your free API key](https://www.assemblyai.com/?utm_source=youtube&utm_medium=referral&utm_campaign=yt_smit_28)
+- **ElevenLabs API Key**: [Sign up for ElevenLabs](https://elevenlabs.io/)
 
-#### ✅ Install Ollama  
-DeepSeek R1 is accessed via Ollama. Install Ollama from:  
-🔗 **[Download Ollama](https://ollama.com/)**  
+### System Dependencies
 
-#### ✅ Install PortAudio (Required for real-time transcription)  
-- **Debian/Ubuntu:**  
-  ```bash
-  apt install portaudio19-dev
-  ```
+#### Install Ollama
+Download and install Ollama from [ollama.com](https://ollama.com/)
 
-  MacOS:
-  ```bash
-  brew install portaudio
-  ```
-####✅ Install Python Libraries
-
-Before running the script, install the required dependencies:
-
+#### Install PortAudio
+**Ubuntu/Debian:**
 ```bash
-pip install "assemblyai[extras]"
-pip install ollama
-pip install elevenlabs
+sudo apt update && sudo apt install portaudio19-dev
 ```
-✅ (MacOS Only) Install MPV for Audio Streaming
 
+**macOS:**
+```bash
+brew install portaudio
+```
+
+**Windows:**
+PortAudio is typically included with the Python package installation.
+
+#### Install MPV (macOS only)
 ```bash
 brew install mpv
 ```
-### Step 2: Download the DeepSeek R1 Model
-Since this script uses DeepSeek R1 via Ollama, download the model locally by running:
 
+## 📦 Installation
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/danieladdisonorg/DeepSeek-R1-Voice-Agent.git
+cd DeepSeek-R1-Voice-Agent
+```
+
+### 2. Install Python Dependencies
+```bash
+pip install "assemblyai[extras]" ollama elevenlabs
+```
+
+### 3. Download DeepSeek R1 Model
 ```bash
 ollama pull deepseek-r1:7b
 ```
 
+### 4. Configure API Keys
+Edit `AIVoiceAgent.py` and replace the placeholder API keys:
+```python
+aai.settings.api_key = "YOUR_ASSEMBLYAI_API_KEY"
+self.client = ElevenLabs(api_key="YOUR_ELEVENLABS_API_KEY")
+```
 
-### 🎯 Running the Script
+## 🚀 Usage
 
-Once all dependencies are installed and the model is downloaded, simply run:
-
+### Start the Voice Agent
 ```bash
 python AIVoiceAgent.py
 ```
+
+### Interaction Flow
+1. **Speak**: The agent listens for your voice input
+2. **Processing**: Your speech is transcribed and sent to DeepSeek R1
+3. **Response**: The AI generates a response (limited to 300 characters for quick interactions)
+4. **Playback**: The response is converted to speech and played back
+5. **Continue**: The conversation continues with maintained context
+
+### Stopping the Agent
+Press `Ctrl+C` to stop the voice agent.
+
+## ⚙️ Configuration
+
+### Model Settings
+- **AI Model**: DeepSeek R1 7B (configurable in the code)
+- **Voice Model**: ElevenLabs Turbo v2 (configurable)
+- **Response Length**: Limited to 300 characters (adjustable in system prompt)
+- **Sample Rate**: 16kHz for optimal quality
+
+### Customization Options
+- Modify the system prompt in `AIVoiceAgent.py` to change AI behavior
+- Adjust response length limits
+- Change voice models in ElevenLabs configuration
+- Modify audio streaming parameters
+
+## 🔍 Troubleshooting
+
+### Common Issues
+
+**"No module named 'assemblyai'"**
+```bash
+pip install "assemblyai[extras]"
+```
+
+**"Ollama connection error"**
+- Ensure Ollama is running: `ollama serve`
+- Verify the model is downloaded: `ollama list`
+
+**"Audio device not found"**
+- Check microphone permissions
+- Verify PortAudio installation
+- Test microphone with other applications
+
+**"ElevenLabs API error"**
+- Verify API key is correct
+- Check API quota/usage limits
+- Ensure stable internet connection
+
+### Performance Tips
+- Use a quality microphone for better transcription accuracy
+- Ensure stable internet connection for API calls
+- Close unnecessary applications to free up system resources
+
+## 🏗️ Architecture
+
+```
+┌─────────────────┐    ┌──────────────┐    ┌─────────────────┐
+│   Microphone    │───▶│  AssemblyAI  │───▶│   DeepSeek R1   │
+│   (Audio Input) │    │ (Speech-to-  │    │ (AI Response    │
+└─────────────────┘    │  Text)       │    │  Generation)    │
+                       └──────────────┘    └─────────────────┘
+                                                      │
+┌─────────────────┐    ┌──────────────┐              │
+│   Speakers      │◀───│  ElevenLabs  │◀─────────────┘
+│ (Audio Output)  │    │ (Text-to-    │
+└─────────────────┘    │  Speech)     │
+                       └──────────────┘
+```
+
+## 📄 License
+
+This project is open source. Please check the repository for license details.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests.
+
+## 📞 Support
+
+For issues and questions:
+- Open an issue on GitHub
+- Check the troubleshooting section above
+- Review API documentation for AssemblyAI, Ollama, and ElevenLabs
+
+---
+
+**Note**: This project requires active internet connection for API services and sufficient system resources to run the DeepSeek R1 model locally via Ollama.
